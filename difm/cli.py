@@ -61,7 +61,7 @@ class DIFM(object):
     def rec(self, args):
         chan = self.find(args.channel, args.fmt)
         if chan:
-            chan.record(args.fmt)
+            chan.record(args.fmt, self.cfg)
 
     def find(self, name, fmt):
         chans = self.channels.find(name)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-import subprocess, shlex
+import subprocess, shlex, datetime
 
 class Channel(object):
     extmap = {'mp3': 'pls', 'aac': 'pls', 'wma': 'asx'}
@@ -66,6 +66,11 @@ class Channel(object):
     def premium_url(self):
         return 'http://listen.%s/premium_high/%s.%s?%s' % (self.host, self.name, self.extmap[self.fmt], self.password)
 
+    @property
+    def rec_name(self):
+        timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M')
+        return '%sfm.%s.%s.%s' % (self.short_host, self.name, timestamp, self.fmt)
+
     def url(self, fmt):
         self.fmt = fmt
         if self.password:
@@ -77,9 +82,14 @@ class Channel(object):
         cmd = cfg.play % self.url(fmt)
         subprocess.call(shlex.split(cmd))
 
-    def record(self, fmt):
-        print self.url(fmt)
-        raise NotImplementedError
+    def record(self, fmt, cfg):
+        if cfg.rec_dir:
+            rec_path = '%s/%s' % (cfg.rec_dir, self.rec_name)
+        else:
+            rec_path = './%s' % self.rec_name
+        cmd = cfg.record % (rec_path, self.url(fmt))
+        print cmd
+        subprocess.call(shlex.split(cmd))
 
     def __str__(self):
         if self.password:
