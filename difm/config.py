@@ -18,6 +18,7 @@ class Config(object):
 
     def defaults(self):
         self._config.add_section('main')
+        self._config.set('main', 'format', 'aac')
         self._config.set('main', 'listenpw', '')
         self._config.set('main', 'play', 'mplayer -cache 128 -quiet -playlist "%s"')
         self._config.set('main', 'record', 'mplayer -cache 128 -quiet -dumpstream -dumpfile "%s" -playlist "%s"')
