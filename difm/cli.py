@@ -3,10 +3,9 @@
 
 import argparse, urllib2, re, tempfile, cPickle, shutil, os
 from BeautifulSoup import BeautifulSoup
+from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
-
-APPDIR = '.difm'
 
 class DIFM(object):
 
@@ -14,7 +13,8 @@ class DIFM(object):
         self.chanfile = os.path.join(os.environ['HOME'], APPDIR, 'channels.dump')
         self.channels = ChannelList()
         self.load()
-        self.load_password()
+        self.cfg = Config()
+        self.password = self.cfg.listenpw
         self.args = self.parser().parse_args()
         self.args.func(self.args)
 
@@ -120,13 +120,6 @@ class DIFM(object):
         tmp.close()
         shutil.move(tmp.name, self.chanfile)
 
-    def load_password(self):
-        try:
-            pwf = os.path.join(os.environ['HOME'], APPDIR, 'listenpw')
-            with file(pwf, 'r') as pw:
-                self.password = pw.read().strip()
-        except (IOError, OSError, EOFError), e:
-            self.password = ''
 
 if __name__ == '__main__':
     DIFM()
