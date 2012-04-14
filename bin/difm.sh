@@ -1,0 +1,5 @@
+#!/bin/sh
+INSTALL_PATH=
+
+PYTHONPATH=$INSTALL_PATH:$PYTHONPATH
+python $INSTALL_PATH/difm/cli.py $*
