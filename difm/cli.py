@@ -49,7 +49,6 @@ class DIFM(object):
         ls.add_argument('src', type=self.valid_source, help='select source site <all|di|sky|jazz>')
         ls.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='show urls for format <aac|mp3|wma>')
         ls.add_argument('-s', '--sort', action='store_true', help='sort channel list by name')
-        ls.add_argument('-w', '--write', action='store_true', help='write channel list; forces update')
         ls.set_defaults(func=self.ls)
 
         return parser
@@ -77,15 +76,6 @@ class DIFM(object):
                 print chan
 
     def ls(self, args):
-        if not self.channels or args.write:
-            chanlist = ChannelList()
-            if args.src == 'all' or args.src == 'di':
-                chanlist.extend(self.get_channels('di.fm'))
-            if args.src == 'all' or args.src == 'sky':
-                chanlist.extend(self.get_channels('sky.fm'))
-            if args.src == 'all' or args.src == 'jazz':
-                chanlist.extend(self.get_channels('jazzradio.com'))
-            self.channels = chanlist
         if args.src == 'all':
             res = self.channels
         else:
@@ -96,9 +86,13 @@ class DIFM(object):
             chan.fmt = args.fmt
             chan.password = self.password
             print chan
-        if args.write:
-            self.save()
 
+    def update_channels(self):
+        self.channels = ChannelList()
+        self.channels.extend(self.get_channels('di.fm'))
+        self.channels.extend(self.get_channels('sky.fm'))
+        self.channels.extend(self.get_channels('jazzradio.com'))
+        self.save()
 
     def get_channels(self, host):
         page = BeautifulSoup(urllib2.urlopen('http://www.%s' % host))
@@ -115,7 +109,7 @@ class DIFM(object):
             with file(self.chanfile, 'rb') as cfile:
                 self.channels = cPickle.load(cfile)
         except (IOError, OSError, EOFError), e:
-            self.channels = ChannelList()
+            self.update_channels()
 
     def save(self):
         tmp = tempfile.NamedTemporaryFile(delete=False)
