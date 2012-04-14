@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
+import subprocess, shlex
+
 class Channel(object):
     extmap = {'mp3': 'pls', 'aac': 'pls', 'wma': 'asx'}
     def __init__(self, host='di', name='progressive', fmt='aac', password=''):
@@ -71,9 +73,9 @@ class Channel(object):
         else:
             return self.public_url
 
-    def play(self, fmt):
-        print self.url(fmt)
-        raise NotImplementedError
+    def play(self, fmt, cfg):
+        cmd = cfg.play % self.url(fmt)
+        subprocess.call(shlex.split(cmd))
 
     def record(self, fmt):
         print self.url(fmt)

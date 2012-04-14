@@ -56,7 +56,7 @@ class DIFM(object):
     def play(self, args):
         chan = self.find(args.channel, args.fmt)
         if chan:
-            chan.play(args.fmt)
+            chan.play(args.fmt, self.cfg)
 
     def rec(self, args):
         chan = self.find(args.channel, args.fmt)
