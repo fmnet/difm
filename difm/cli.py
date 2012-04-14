@@ -48,6 +48,7 @@ class DIFM(object):
         ls = subparsers.add_parser('ls', help='list available channels')
         ls.add_argument('src', type=self.valid_source, help='select source site <all|di|sky|jazz>')
         ls.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default='aac', help='show urls for format <aac|mp3|wma>')
+        ls.add_argument('-s', '--sort', action='store_true', help='sort channel list by name')
         ls.add_argument('-w', '--write', action='store_true', help='write channel list; forces update')
         ls.set_defaults(func=self.ls)
 
@@ -89,6 +90,8 @@ class DIFM(object):
             res = self.channels
         else:
             res = [c for c in self.channels if c.short_host == args.src]
+        if args.sort:
+            res = sorted(res, key=lambda c: c.name)
         for chan in res:
             chan.fmt = args.fmt
             chan.password = self.password
