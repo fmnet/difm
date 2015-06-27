@@ -20,7 +20,7 @@ class DIFM(object):
 
     def valid_format(self, s):
         s = s.lower()
-        if s in ('mp3', 'aac', 'wma'):
+        if s in ('mp3', 'aac'):
             return s
         raise TypeError
 

@@ -4,7 +4,7 @@
 import subprocess, shlex, datetime
 
 class Channel(object):
-    extmap = {'mp3': 'pls', 'aac': 'pls', 'wma': 'asx'}
+    extmap = {'mp3': 'pls', 'aac': 'pls'}
     def __init__(self, host='di', name='progressive', fmt='aac', password=''):
         self.host = host
         self.name = name
@@ -41,7 +41,7 @@ class Channel(object):
     @fmt.setter
     def fmt(self, s):
         s = s.lower()
-        if s in ('mp3', 'aac', 'wma'):
+        if s in ('mp3', 'aac'):
             self._fmt = s
         else:
             raise TypeError, 'invalid format %s' % s
@@ -56,10 +56,7 @@ class Channel(object):
 
     @property
     def public_url(self):
-        if self.host == 'di.fm':
-            fmtmap = {'mp3': 'public3', 'aac': 'public2', 'wma': 'public5'}
-        else:
-            fmtmap = {'mp3': 'public3', 'aac': 'public1', 'wma': 'public5'}
+        fmtmap = {'mp3': 'public3', 'aac': 'public1'}
         return 'http://listen.%s/%s/%s.%s' % (self.host, fmtmap[self.fmt], self.name, self.extmap[self.fmt])
 
     @property
