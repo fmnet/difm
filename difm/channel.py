@@ -61,7 +61,8 @@ class Channel(object):
 
     @property
     def premium_url(self):
-        return 'http://listen.%s/premium_high/%s.%s?%s' % (self.host, self.name, self.extmap[self.fmt], self.password)
+        fmtmap = {'mp3': 'premium_high', 'aac': 'premium'}
+        return 'http://listen.%s/%s/%s.%s?%s' % (self.host, fmtmap[self.fmt], self.name, self.extmap[self.fmt], self.password)
 
     @property
     def rec_name(self):

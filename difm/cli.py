@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-import argparse, urllib2, re, tempfile, cPickle, shutil, os
-from BeautifulSoup import BeautifulSoup
+import requests, json, argparse, urllib2, re, tempfile, cPickle, shutil, os
 from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
@@ -95,11 +94,10 @@ class DIFM(object):
         self.save()
 
     def get_channels(self, host):
-        page = BeautifulSoup(urllib2.urlopen('http://www.%s' % host))
-        chans = page.findAll('li', attrs={'data-key': re.compile(r'\w')})
+        chans = json.loads(requests.get('http://listen.%s/premium_high/' % host).text)
         cl = []
         for part in chans:
-            name = part['data-key']
+            name = part['key']
             c = Channel(host, name)
             cl.append(c)
         return cl
