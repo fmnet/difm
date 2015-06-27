@@ -26,7 +26,7 @@ class DIFM(object):
 
     def valid_source(self, s):
         s = s.lower()
-        if s in ('all', 'di', 'sky', 'jazz'):
+        if s in ('all', 'di', 'radiotunes', 'jazz'):
             return s
         raise TypeError
 
@@ -46,7 +46,7 @@ class DIFM(object):
         rec.set_defaults(func=self.rec)
 
         ls = subparsers.add_parser('ls', help='list available channels')
-        ls.add_argument('src', type=self.valid_source, nargs='?', default='all', help='select source site <all|di|sky|jazz>')
+        ls.add_argument('src', type=self.valid_source, nargs='?', default='all', help='select source site <all|di|radiotunes|jazz>')
         ls.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='show urls for format <aac|mp3|wma>')
         ls.add_argument('-s', '--sort', action='store_true', help='sort channel list by name')
         ls.set_defaults(func=self.ls)
@@ -90,7 +90,7 @@ class DIFM(object):
     def update_channels(self):
         self.channels = ChannelList()
         self.channels.extend(self.get_channels('di.fm'))
-        self.channels.extend(self.get_channels('sky.fm'))
+        self.channels.extend(self.get_channels('radiotunes.com'))
         self.channels.extend(self.get_channels('jazzradio.com'))
         self.save()
 

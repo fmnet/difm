@@ -23,8 +23,8 @@ class Channel(object):
     def host(self, s):
         if s == 'di':
             self._host = 'di.fm'
-        elif s == 'sky':
-            self._host = 'sky.fm'
+        elif s == 'radiotunes':
+            self._host = 'radiotunes.com'
         elif s == 'jazz':
             self._host = 'jazzradio.com'
         elif '.' in s:
