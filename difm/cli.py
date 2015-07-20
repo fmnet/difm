@@ -37,11 +37,13 @@ class DIFM(object):
         play = subparsers.add_parser('play', help='play a channel')
         play.add_argument('channel', type=str, help='select channel')
         play.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3|wma>')
+        play.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz>')
         play.set_defaults(func=self.play)
 
         rec = subparsers.add_parser('rec', help='record a channel')
         rec.add_argument('channel', type=str, help='select channel')
         rec.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3|wma>')
+        rec.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz>')
         rec.set_defaults(func=self.rec)
 
         ls = subparsers.add_parser('ls', help='list available channels')
@@ -53,17 +55,19 @@ class DIFM(object):
         return parser
 
     def play(self, args):
-        chan = self.find(args.channel, args.fmt)
+        chan = self.find(args.channel, args.fmt, args.src)
         if chan:
             chan.play(args.fmt, self.cfg)
 
     def rec(self, args):
-        chan = self.find(args.channel, args.fmt)
+        chan = self.find(args.channel, args.fmt, args.src)
         if chan:
             chan.record(args.fmt, self.cfg)
 
-    def find(self, name, fmt):
+    def find(self, name, fmt, src=''):
         chans = self.channels.find(name)
+        if len(chans) > 1 and src != '':
+            chans = filter(lambda x: x.short_host == src, chans)
         if len(chans) == 1:
             chan = chans[0]
             chan.password = self.password
