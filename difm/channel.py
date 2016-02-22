@@ -27,6 +27,8 @@ class Channel(object):
             self._host = 'radiotunes.com'
         elif s == 'jazz':
             self._host = 'jazzradio.com'
+        elif s == 'rock':
+            self._host = 'rockradio.com'
         elif '.' in s:
             self._host = s
         else:

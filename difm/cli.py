@@ -25,7 +25,7 @@ class DIFM(object):
 
     def valid_source(self, s):
         s = s.lower()
-        if s in ('all', 'di', 'radiotunes', 'jazz'):
+        if s in ('all', 'di', 'radiotunes', 'jazz', 'rock'):
             return s
         raise TypeError
 
@@ -37,13 +37,13 @@ class DIFM(object):
         play = subparsers.add_parser('play', help='play a channel')
         play.add_argument('channel', type=str, help='select channel')
         play.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3|wma>')
-        play.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz>')
+        play.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock>')
         play.set_defaults(func=self.play)
 
         rec = subparsers.add_parser('rec', help='record a channel')
         rec.add_argument('channel', type=str, help='select channel')
         rec.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3|wma>')
-        rec.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz>')
+        rec.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock>')
         rec.set_defaults(func=self.rec)
 
         ls = subparsers.add_parser('ls', help='list available channels')
@@ -95,6 +95,7 @@ class DIFM(object):
         self.channels.extend(self.get_channels('di.fm'))
         self.channels.extend(self.get_channels('radiotunes.com'))
         self.channels.extend(self.get_channels('jazzradio.com'))
+        self.channels.extend(self.get_channels('rockradio.com'))
         self.save()
 
     def get_channels(self, host):
