@@ -21,7 +21,7 @@ class Config(object):
         self._config.set('main', 'format', 'aac')
         self._config.set('main', 'listenpw', '')
         self._config.set('main', 'play', 'mpv --cache=128 --quiet --playlist="%s"')
-        self._config.set('main', 'record', 'mpv --cache=128 --quiet --dumpstream="%s" --playlist="%s"')
+        self._config.set('main', 'record', 'mpv --cache=128 --quiet --stream-dump="%s" --playlist="%s"')
         self._config.set('main', 'rec_dir', '')
         self._objectify()
         self.save()
