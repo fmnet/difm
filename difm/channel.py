@@ -71,23 +71,25 @@ class Channel(object):
         timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M')
         return '%sfm.%s.%s.%s' % (self.short_host, self.name, timestamp, self.fmt)
 
-    def url(self, fmt):
-        self.fmt = fmt
+    @property
+    def url(self):
         if self.password:
             return self.premium_url
         else:
             return self.public_url
 
     def play(self, fmt, cfg):
-        cmd = cfg.play % self.url(fmt)
+        self.fmt = fmt
+        cmd = cfg.play % self.url
         subprocess.call(shlex.split(cmd))
 
     def record(self, fmt, cfg):
+        self.fmt = fmt
         if cfg.rec_dir:
             rec_path = '%s/%s' % (cfg.rec_dir, self.rec_name)
         else:
             rec_path = './%s' % self.rec_name
-        cmd = cfg.record % (rec_path, self.url(fmt))
+        cmd = cfg.record % (rec_path, self.url)
         print cmd
         subprocess.call(shlex.split(cmd))
 
