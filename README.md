@@ -16,10 +16,10 @@
   - player
 - `difm play <channel>`
 
-Enjoy
+Enjoy.
 
 ## Channel List
 
-The channel list will be cached in `%HOME/.difm/channels.dump` and loaded from
+The channel list will be cached in `$HOME/.difm/channels.dump` and loaded from
 there to minimize network traffic. To fetch the latest channels simply remove
-this file and it will re-created the next time you run the program.
+this file and it will be re-created the next time you run the program.
