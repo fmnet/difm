@@ -25,7 +25,7 @@ class DIFM(object):
 
     def valid_source(self, s):
         s = s.lower()
-        if s in ('all', 'di', 'radiotunes', 'jazz', 'rock'):
+        if s in ('all', 'di', 'radiotunes', 'jazz', 'rock', 'classic'):
             return s
         raise TypeError
 
@@ -37,17 +37,17 @@ class DIFM(object):
         play = subparsers.add_parser('play', help='play a channel')
         play.add_argument('channel', type=str, help='select channel')
         play.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3>')
-        play.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock>')
+        play.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock|classic>')
         play.set_defaults(func=self.play)
 
         rec = subparsers.add_parser('rec', help='record a channel')
         rec.add_argument('channel', type=str, help='select channel')
         rec.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='select format <aac|mp3>')
-        rec.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock>')
+        rec.add_argument('-s', '--src', dest='src', type=self.valid_source, default='di', help='select format <di|radiotunes|jazz|rock|classic>')
         rec.set_defaults(func=self.rec)
 
         ls = subparsers.add_parser('ls', help='list available channels')
-        ls.add_argument('src', type=self.valid_source, nargs='?', default='all', help='select source site <all|di|radiotunes|jazz>')
+        ls.add_argument('src', type=self.valid_source, nargs='?', default='all', help='select source site <all|di|radiotunes|jazz|classic>')
         ls.add_argument('-f', '--format', dest='fmt', type=self.valid_format, default=self.cfg.format, help='show urls for format <aac|mp3>')
         ls.add_argument('-s', '--sort', action='store_true', help='sort channel list by name')
         ls.set_defaults(func=self.ls)
@@ -96,6 +96,7 @@ class DIFM(object):
         self.channels.extend(self.get_channels('radiotunes.com'))
         self.channels.extend(self.get_channels('jazzradio.com'))
         self.channels.extend(self.get_channels('rockradio.com'))
+        self.channels.extend(self.get_channels('classicalradio.com'))
         self.save()
 
     def get_channels(self, host):
