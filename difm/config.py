@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
-import os, ConfigParser
+import os, configparser
 from difm.defaults import APPDIR
 
 class ConfigSection(object): pass
@@ -12,7 +12,7 @@ class Config(object):
 
     def __init__(self):
         self._file = os.path.join(os.environ['HOME'], APPDIR, 'config.ini')
-        self._config = ConfigParser.RawConfigParser()
+        self._config = configparser.RawConfigParser()
         self.defaults()
         self.load()
 

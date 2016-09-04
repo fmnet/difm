@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
 import subprocess, shlex, datetime
@@ -34,7 +34,7 @@ class Channel(object):
         elif '.' in s:
             self._host = s
         else:
-            raise TypeError, 'invalid host %s' % s
+            raise TypeError('invalid host %s' % s)
 
     @property
     def fmt(self):
@@ -48,7 +48,7 @@ class Channel(object):
         if s in ('mp3', 'aac'):
             self._fmt = s
         else:
-            raise TypeError, 'invalid format %s' % s
+            raise TypeError('invalid format %s' % s)
 
     @property
     def password(self):
@@ -92,7 +92,7 @@ class Channel(object):
         else:
             rec_path = './%s' % self.rec_name
         cmd = cfg.record % (rec_path, self.url)
-        print cmd
+        print(cmd)
         subprocess.call(shlex.split(cmd))
 
     def __str__(self):

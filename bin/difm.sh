@@ -2,4 +2,4 @@
 INSTALL_PATH=
 
 PYTHONPATH=$INSTALL_PATH:$PYTHONPATH
-python $INSTALL_PATH/difm/cli.py $*
+python3 $INSTALL_PATH/difm/cli.py $*

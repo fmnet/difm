@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
-import requests, json, argparse, urllib2, re, tempfile, cPickle, shutil, os
+import requests, json, argparse, re, tempfile, pickle, shutil, os
 from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
@@ -67,7 +67,7 @@ class DIFM(object):
     def find(self, name, fmt, src=''):
         chans = self.channels.find(name)
         if len(chans) > 1 and src != '':
-            chans = filter(lambda x: x.short_host == src, chans)
+            chans = [x for x in chans if x.short_host == src]
         if len(chans) == 1:
             chan = chans[0]
             chan.password = self.password
@@ -76,7 +76,7 @@ class DIFM(object):
             for chan in chans:
                 chan.fmt = fmt
                 chan.password = self.password
-                print chan
+                print(chan)
 
     def ls(self, args):
         if args.src == 'all':
@@ -88,7 +88,7 @@ class DIFM(object):
         for chan in res:
             chan.fmt = args.fmt
             chan.password = self.password
-            print chan
+            print(chan)
 
     def update_channels(self):
         self.channels = ChannelList()
@@ -110,14 +110,14 @@ class DIFM(object):
 
     def load(self):
         try:
-            with file(self.chanfile, 'rb') as cfile:
-                self.channels = cPickle.load(cfile)
-        except (IOError, OSError, EOFError), e:
+            with open(self.chanfile, 'rb') as cfile:
+                self.channels = pickle.load(cfile)
+        except (IOError, OSError, EOFError) as e:
             self.update_channels()
 
     def save(self):
         tmp = tempfile.NamedTemporaryFile(delete=False)
-        cPickle.dump(self.channels, tmp)
+        pickle.dump(self.channels, tmp)
         tmp.close()
         shutil.move(tmp.name, self.chanfile)
 
