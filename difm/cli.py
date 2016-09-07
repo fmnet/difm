@@ -116,11 +116,19 @@ class DIFM(object):
             self.update_channels()
 
     def save(self):
+        ensure_path(os.path.dirname(self.chanfile))
         tmp = tempfile.NamedTemporaryFile(delete=False)
         pickle.dump(self.channels, tmp)
         tmp.close()
         shutil.move(tmp.name, self.chanfile)
 
+
+def ensure_path(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
 
 if __name__ == '__main__':
     DIFM()
