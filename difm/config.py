@@ -64,7 +64,7 @@ class Config(object):
                     setattr(eval('self.%s' % section), name, value)
 
     def _write(self):
-        cfile = file(self._file, 'wb')
+        cfile = open(self._file, 'w')
         self._config.write(cfile)
         cfile.close()
 
