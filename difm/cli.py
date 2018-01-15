@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
-import requests, json, argparse, re, tempfile, pickle, shutil, os
+import requests, json, argparse, re, tempfile, pickle, shutil, os,sys
 from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
@@ -126,10 +126,12 @@ class DIFM(object):
 def ensure_path(path):
     try:
         os.makedirs(path)
+    except FileExistsError as e:
+        print("{} already exists.".format(path),
+              file=sys.stderr)
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
 
 if __name__ == '__main__':
     DIFM()
-
