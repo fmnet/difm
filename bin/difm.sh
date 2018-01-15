@@ -1,5 +1,5 @@
 #!/bin/sh
-INSTALL_PATH=/Users/pgdx-seth/git/difm
+INSTALL_PATH=
 
 PYTHONPATH=$INSTALL_PATH:$PYTHONPATH
 cd "$INSTALL_PATH"
