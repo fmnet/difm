@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
-import requests, json, argparse, re, tempfile, pickle, shutil, errno, os
+import requests, json, argparse, re, tempfile, pickle, shutil, errno, os, sys
 from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
@@ -112,6 +112,9 @@ class DIFM(object):
         try:
             with open(self.chanfile, 'rb') as cfile:
                 self.channels = pickle.load(cfile)
+        except PermissionError as e:
+            print("Can't read channel.dump file: {}".format(e), file=sys.stderr)
+            sys.exit(1)
         except (IOError, OSError, EOFError) as e:
             self.update_channels()
 
