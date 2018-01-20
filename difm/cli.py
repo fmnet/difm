@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 
-import requests, json, argparse, re, tempfile, pickle, shutil, os
+import requests, json, argparse, re, tempfile, pickle, shutil, errno, os
 from difm.config import Config, APPDIR
 from difm.channel import Channel
 from difm.channellist import ChannelList
