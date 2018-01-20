@@ -32,7 +32,8 @@ class DIFM(object):
     def parser(self):
         parser = argparse.ArgumentParser(description='di.fm player',
                                          epilog='use <command> -h to get help for each command')
-        subparsers = parser.add_subparsers(title='commands', dest='subname')
+        subparsers = parser.add_subparsers(title='commands', dest='command')
+        subparsers.required = True
 
         play = subparsers.add_parser('play', help='play a channel')
         play.add_argument('channel', type=str, help='select channel')
