@@ -2,4 +2,5 @@
 INSTALL_PATH=
 
 PYTHONPATH=$INSTALL_PATH:$PYTHONPATH
-python3 $INSTALL_PATH/difm/cli.py $*
+cd "$INSTALL_PATH"
+pipenv run difm $*
